@@ -21,6 +21,7 @@
       $.each(data, function(index,  event) {
         var checkedStatus = event.done ? "checked" : "";
         var liElement = '<li><div class="view"><input class="toggle" type="checkbox"' +
+        " data-id='" + event.id + "'" +
         checkedStatus +
         '><label>' +
          event.title +
@@ -29,6 +30,22 @@
       });
       var ulEvents = $('.event-list');
       ulEvents.html(htmlString);
+
+      $('.toggle').change(function(e) {
+        var itemId = $(e.target).data("id");
+        console.log(itemId);
+      });
+
+      var doneValue = Boolean($(e.target).is(':checked'));
+        console.log("done:", doneValue);
+
+      $.post("/tasks/" + itemId, {
+          _method: "PUT",
+          task: {
+            done: doneValue
+          }
+        });
+
     });
   });
 </script>
