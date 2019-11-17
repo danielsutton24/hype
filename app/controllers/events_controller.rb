@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
   def index
-    render json: Event.all
+    render json: Event.order(:id)
   end
 
   def update
@@ -9,10 +9,15 @@ class EventsController < ApplicationController
     render json: event
   end
 
+  def create
+    event = Event.create(event_params)
+    render json: event
+  end
+
   private
 
   def event_params
-    params.require(:event).permit(:done)
+    params.require(:event).permit(:done, :title)
   end
 
 end
