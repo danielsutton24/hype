@@ -4,6 +4,31 @@
   </header>
 
   <section class="main">
+    <ul class="event-list">
 
+    
+
+    </ul>
   </section>
 </section>
+
+
+<script>
+  $(function() {
+    $.get("/events").success( function( data ) {
+      var htmlString = "";
+
+      $.each(data, function(index,  event) {
+        var checkedStatus = event.done ? "checked" : "";
+        var liElement = '<li><div class="view"><input class="toggle" type="checkbox"' +
+        checkedStatus +
+        '><label>' +
+         event.title +
+         '</label></div></li>';
+          htmlString += liElement;
+      });
+      var ulEvents = $('.event-list');
+      ulEvents.html(htmlString);
+    });
+  });
+</script>

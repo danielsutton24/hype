@@ -12,4 +12,18 @@ RSpec.describe EventsController, type: :controller do
     end
   end
 
+
+
+
+  describe "events#update" do
+    it "should allow events to be marked as done" do
+      event = FactoryBot.create(:event, done: false)
+      put :update, params: {id: event.id, event: { done: true }}
+      expect(response).to have_http_status(:success)
+      event.reload
+      expect(event.done).to eq(true)
+    end
+  end
+
+
 end
