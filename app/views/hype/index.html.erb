@@ -1,8 +1,8 @@
 <section class="hypeapp">
   <header class="header">
-    <h1>events</h1>
+    <h1>Events</h1>
     <form id="new-form">
-      <input type="text" class="new-event" />
+      <input type="text" class="new-event" placeholder="What's next?" />
     </form>
   </header>
 
@@ -16,60 +16,10 @@
 </section>
 
 
-<script>
-  $(function() {
-    $('#new-form').submit(function(event) {
-      event.preventDefault();
-      var textbox = $('.new-event');
-      var payload = {
-        event: {
-          title: textbox.val()
-        }
-      };
-      $.post("/events", payload).success(function(data) {
-        console.log("Successful HTTP Request");
-      });
-    });
-   
-    function eventHtml(event) {
-      var checkedStatus = event.done ? "checked" : "";
-      var liElement = '<li><div class="view"><input class="toggle" type="checkbox"' +
-        " data-id='" + event.id + "'" +
-        checkedStatus +
-        '><label>' +
-         event.title +
-         '</label></div></li>';
+<section class="author">
+  A <%= link_to "todo-mvc", "http://todomvc.com" %>
+  application, built by
+  <%= link_to "Dan Sutton", "http://github.com/danielsutton24" %>
+</section>
 
-      return liElement;
-    }
 
-    function toggleEvent(e) {
-      var itemId = $(e.target).data("id");
-      
-
-      var doneValue = Boolean($(e.target).is(':checked'));
-      
-
-      $.post("/events/" + itemId, {
-        _method: "PUT",
-        event: {
-          done: doneValue
-        }
-      });
-    }
-
-      $.get("/events").success( function( data ) {
-        var htmlString = "";
-
-         $.each(data, function(index,  event) {
-          htmlString += eventHtml(event);
-      });
-        var ulEvents = $('.event-list');
-        ulEvents.html(htmlString);
-
-        $('.toggle').change(toggleEvent);
-
-      
-    });
-  });
-</script>
